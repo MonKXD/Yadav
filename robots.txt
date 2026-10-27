@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://monkxd.github.io/Yadav/sitemap.xml

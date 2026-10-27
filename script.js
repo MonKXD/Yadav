@@ -103,7 +103,7 @@
     e.preventDefault();
     var d = {};
     ["company_name", "contact_person", "email", "product_interest", "message"].forEach(function (k) { d[k] = form.elements[k].value; });
-    function done() { form.reset(); btn.disabled = false; btn.textContent = "Submit Enquiry"; showThanks(true); }
+    function done() { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: "enquiry_submit", product_interest: d.product_interest }); form.reset(); btn.disabled = false; btn.textContent = "Submit Enquiry"; showThanks(true); }
     btn.disabled = true; btn.textContent = "Submitting...";
     fetch(ENQUIRY_API, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(d) })
       .then(function (r) { if (!r.ok) throw new Error(r.status); done(); })
