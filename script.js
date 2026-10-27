@@ -7,7 +7,7 @@
   // (offline, blocked), the visitor's email app opens with the enquiry instead.
   var BASE44_APP_ID = "6a1a85931c288fc1c4041338";
   var ENQUIRY_API = "https://app.base44.com/api/apps/" + BASE44_APP_ID + "/entities/Enquiry";
-  var ENQUIRY_EMAIL = "enquiries@sunchem.in";
+  var ENQUIRY_EMAIL = "sales@sunchem.co.in";
 
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };

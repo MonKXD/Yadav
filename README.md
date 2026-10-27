@@ -10,7 +10,7 @@ No build step or server needed: open `index.html` in a browser, or upload the th
 ## Contact form
 Submissions go to the same Base44 `Enquiry` entity as the original app (app id in `script.js`),
 so they still appear in your Base44 dashboard. If the request fails, the visitor's email app opens
-with the enquiry pre-filled for `enquiries@sunchem.in`.
+with the enquiry pre-filled for `sales@sunchem.co.in`.
 
 ## Images
 The hero image and logos load from Base44's media CDN, exactly like the original. To make the site
