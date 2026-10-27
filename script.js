@@ -2,11 +2,11 @@
   "use strict";
 
   // ---- Enquiry form delivery -------------------------------------------
-  // The Base44 app saved enquiries to its own database. A static site has no
-  // backend, so set FORM_ENDPOINT to a form service URL (e.g. Formspree:
-  // "https://formspree.io/f/xxxxxxx"). While it is empty, submitting opens
-  // the visitor's email app with the enquiry pre-filled instead.
-  var FORM_ENDPOINT = "";
+  // Same backend as the Base44 app: enquiries are saved to its Enquiry entity,
+  // so they keep showing up in your Base44 dashboard. If the request fails
+  // (offline, blocked), the visitor's email app opens with the enquiry instead.
+  var BASE44_APP_ID = "6a1a85931c288fc1c4041338";
+  var ENQUIRY_API = "https://app.base44.com/api/apps/" + BASE44_APP_ID + "/entities/Enquiry";
   var ENQUIRY_EMAIL = "enquiries@sunchem.in";
 
   var $ = function (s, r) { return (r || document).querySelector(s); };
@@ -104,16 +104,14 @@
     var d = {};
     ["company_name", "contact_person", "email", "product_interest", "message"].forEach(function (k) { d[k] = form.elements[k].value; });
     function done() { form.reset(); btn.disabled = false; btn.textContent = "Submit Enquiry"; showThanks(true); }
-    if (FORM_ENDPOINT) {
-      btn.disabled = true; btn.textContent = "Submitting...";
-      fetch(FORM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(d) })
-        .then(function (r) { if (!r.ok) throw new Error(r.status); done(); })
-        .catch(function () { btn.disabled = false; btn.textContent = "Submit Enquiry"; alert("Sorry, something went wrong. Please email " + ENQUIRY_EMAIL + " directly."); });
-    } else {
-      var body = "Company: " + d.company_name + "\nContact Person: " + d.contact_person + "\nEmail: " + d.email +
-        "\nProduct Interest: " + d.product_interest + "\n\nMessage:\n" + d.message;
-      window.location.href = "mailto:" + ENQUIRY_EMAIL + "?subject=" + encodeURIComponent("Quote Request – " + d.product_interest) + "&body=" + encodeURIComponent(body);
-      done();
-    }
+    btn.disabled = true; btn.textContent = "Submitting...";
+    fetch(ENQUIRY_API, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(d) })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); done(); })
+      .catch(function () {
+        var body = "Company: " + d.company_name + "\nContact Person: " + d.contact_person + "\nEmail: " + d.email +
+          "\nProduct Interest: " + d.product_interest + "\n\nMessage:\n" + d.message;
+        window.location.href = "mailto:" + ENQUIRY_EMAIL + "?subject=" + encodeURIComponent("Quote Request – " + d.product_interest) + "&body=" + encodeURIComponent(body);
+        done();
+      });
   });
 })();
